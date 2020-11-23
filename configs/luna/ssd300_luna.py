@@ -25,13 +25,13 @@ data = dict(
         dataset=dict(
             img_prefix='LUNA/',
             classes=classes,
-            ann_file='LUNA/annotation.json')
+            ann_file='LUNA/train.json')
         ),
     val=dict(
         img_prefix='LUNA/',
         classes=classes,
-        ann_file='LUNA/annotation.json'),
+        ann_file='LUNA/test.json'),
     test=dict(
         img_prefix='LUNA/',
         classes=classes,
-        ann_file='LUNA/annotation.json'))
+        ann_file='LUNA/test.json'))
