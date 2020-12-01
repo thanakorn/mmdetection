@@ -30,8 +30,12 @@ data = dict(
     val=dict(
         img_prefix='LUNA/',
         classes=classes,
-        ann_file='LUNA/test.json'),
+        ann_file='LUNA/train.json'),
     test=dict(
         img_prefix='LUNA/',
         classes=classes,
-        ann_file='LUNA/test.json'))
+        ann_file='LUNA/train.json'))
+
+optimizer = dict(type='SGD', lr=0.001)
+optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
+log_config = dict(interval=10)
