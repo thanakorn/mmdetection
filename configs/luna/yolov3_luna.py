@@ -1,10 +1,11 @@
 _base_ = '../yolo/yolov3_d53_mstrain-608_273e_coco.py'
 
-model = dict(
-    pretrained=None,
-    bbox_head=dict(num_classes=1)
-  )
+model=dict(
+  pretrained=None,
+  bbox_head=dict(num_classes=1)
+)
 
+# pipeline settings
 img_norm_cfg = dict(mean=[0, 0, 0], std=[255., 255., 255.], to_rgb=True)
 train_pipeline = [
     dict(type='LoadImageFromFile', to_float32=True),
@@ -34,26 +35,30 @@ classes = ('nodule',)
 
 data = dict(
     train=dict(
-      type='RepeatDataset',
-      times=5,
-        dataset=dict(
-            type=dataset_type,
-            img_prefix='LUNA/',
-            classes=classes,
-            ann_file='LUNA/train.json',
-            pipeline=train_pipeline)
-        ),
+        _delete_=True,
+        type=dataset_type,
+        img_prefix='LUNA/',
+        classes=classes,
+        ann_file='LUNA/train.json',
+        pipeline=train_pipeline,
+        filter_empty_gt=False),
     val=dict(
         img_prefix='LUNA/',
         classes=classes,
-        ann_file='LUNA/train.json'),
+        ann_file='LUNA/val.json',
+        filter_empty_gt=False),
     test=dict(
         img_prefix='LUNA/',
         classes=classes,
-        ann_file='LUNA/train.json'))
+        ann_file='LUNA/test.json',
+        filter_empty_gt=False))
 
-optimizer = dict(type='SGD', lr=0.001)
+# optimizer settings
+optimizer = dict(_delete_=True, type='Adam', lr=0.001)
+optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 
-log_config = dict(interval=60)
-evaluation = dict(interval=25)
+# runtime settings
 total_epochs = 20
+log_config = dict(interval=500)
+evaluation = dict(interval=10)
+workflow = [('train', 1)]
