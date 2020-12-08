@@ -2,9 +2,7 @@ _base_ = '../faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
 model = dict(
   pretrained=None,
   roi_head=dict(
-    bbox_head=dict(
-      num_classes=1
-    )
+    bbox_head=dict(num_classes=1)
   )
 )
 
@@ -28,25 +26,30 @@ classes = ('nodule',)
 
 data = dict(
     train=dict(
-      type='RepeatDataset',
-      times=5,
-        dataset=dict(
-            type=dataset_type,
-            img_prefix='LUNA/',
-            classes=classes,
-            ann_file='LUNA/train.json',
-            pipeline=train_pipeline)
-        ),
+        _delete_=True,
+        type=dataset_type,
+        img_prefix='LUNA/',
+        classes=classes,
+        ann_file='LUNA/train.json',
+        pipeline=train_pipeline,
+        filter_empty_gt=False),
     val=dict(
         img_prefix='LUNA/',
         classes=classes,
-        ann_file='LUNA/train.json'),
+        ann_file='LUNA/val.json',
+        filter_empty_gt=False),
     test=dict(
         img_prefix='LUNA/',
         classes=classes,
-        ann_file='LUNA/train.json'))
+        ann_file='LUNA/test.json',
+        filter_empty_gt=False))
 
-optimizer = dict(type='SGD', lr=0.001)
-log_config = dict(interval=150)
-evaluation = dict(interval=25)
+# optimizer settings
+optimizer = dict(_delete_=True, type='Adam', lr=0.001)
+optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
+
+# runtime settings
 total_epochs = 20
+log_config = dict(interval=500)
+evaluation = dict(interval=10)
+workflow = [('train', 1)]
