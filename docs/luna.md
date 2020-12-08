@@ -1,5 +1,10 @@
 # Training Nodule Detection model
 
+## Clone the project
+```
+git checkout https://github.com/thanakorn/mmdetection.git
+```
+
 ## Prepare the dataset
 
 Before training the model, the raw data(**.raw** and **.mhd** files) must be transformed into images. Then, the annotation file containing image list and ground truth in COCO 
@@ -27,7 +32,9 @@ Follow OpenMM instructions [here](https://github.com/thanakorn/mmdetection/blob/
 ## Training the model
 
 After finish installing OpenMM, the object-detection model is ready to be trained. All you need to do is to provide the configuration. There are 3 models which are provided 
-at the moment(https://github.com/thanakorn/mmdetection/tree/master/configs/luna): YOLOv3, Faster-RCNN, and SSD. To train the model, run the following command:
+at the moment: YOLOv3, Faster-RCNN, and SSD. 
+
+Modify the `dataset_root` and `ann_file` in the [config file](https://github.com/thanakorn/mmdetection/tree/master/configs/luna) to be your dataset directory and annotation file respectively. Then, run the following command:
 
 `python tools/train.py configs/luna/{config_file_name}`
 
