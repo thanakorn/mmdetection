@@ -1,7 +1,7 @@
 _base_ = '../ssd/ssd512_coco.py'
 
 model=dict(
-  backbone=dict(type='MobileNetV2', widen_factor=1., out_indices=(7, )),
+  backbone=dict(_delete_=True, type='MobileNetV2', widen_factor=1., out_indices=(3, 4)),
   pretrained=None,
   bbox_head=dict(num_classes=1)  
 )
