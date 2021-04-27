@@ -1,9 +1,16 @@
 _base_ = '../ssd/ssd512_coco.py'
 
 model=dict(
-  backbone=dict(_delete_=True, type='MobileNetV2', widen_factor=1., out_indices=(3, 4)),
+  backbone=dict(_delete_=True,type='MobileNetV2', widen_factor=1., out_indices=(3, 4, 7)),
   pretrained=None,
-  bbox_head=dict(num_classes=1)  
+  bbox_head=dict(
+    num_classes=1,
+    in_channels=(64, 96, 1280),
+    anchor_generator=dict(
+      strides=[8, 16, 32],
+      ratios=[[2], [2, 3], [2, 3]]
+    )
+  )  
 )
 
 # pipeline settings
